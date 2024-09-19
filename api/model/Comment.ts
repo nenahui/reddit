@@ -1,18 +1,9 @@
 import mongoose from 'mongoose';
-import { CommentSchema } from './Comment';
 import { User } from './User';
 
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
+export const CommentSchema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -26,11 +17,14 @@ const PostSchema = new Schema({
       message: 'User does not exist',
     },
   },
+  content: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  comments: [CommentSchema],
 });
 
-export const Post = mongoose.model('Post', PostSchema);
+export const Comment = mongoose.model('Comment', CommentSchema);
