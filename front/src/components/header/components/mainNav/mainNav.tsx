@@ -13,7 +13,7 @@ export const MainNav = () => {
           pathname === '/' ? 'text-foreground' : 'text-foreground/60'
         )}
       >
-        Home
+        Forum
       </Link>
       <Link
         to='/news'

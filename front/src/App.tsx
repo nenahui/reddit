@@ -1,5 +1,5 @@
 import { Layout } from '@/components/layout/layout';
-import { Home } from '@/features/home/home';
+import { Forum } from '@/features/forum/forum';
 import { Login } from '@/features/users/login';
 import { Register } from '@/features/users/register';
 import React from 'react';
@@ -15,7 +15,7 @@ export const App: React.FC = () => {
         element={
           <Layout>
             <Routes>
-              <Route path={'/'} element={<Home />} />
+              <Route path={'/'} element={<Forum />} />
             </Routes>
           </Layout>
         }
