@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <header className='sticky mb-4 top-2 rounded-xl z-50 w-full max-w-sm mx-auto border-border/40 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+    <header className='sticky mb-4 top-2 rounded-full z-50 w-full max-w-md mx-auto border-border/40 backdrop-blur supports-[backdrop-filter]:bg-gray-400/60'>
       <div className='container px-0 flex h-14 max-w-screen-2xl justify-between w-full items-center'>
         <Link to='/' className='flex items-center'>
           <img src={'/logo.png'} className='h-5 w-6 mr-2' alt={'Taza Meken'} />

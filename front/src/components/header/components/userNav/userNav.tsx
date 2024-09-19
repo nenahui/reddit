@@ -21,11 +21,11 @@ export const UserNav: React.FC<Props> = ({ user, handleLogout }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className='h-9 w-9 border border-muted-foreground/10'>
-          <AvatarFallback className={'uppercase text-sm'}>{user.username.slice(0, 2)}</AvatarFallback>
+        <Avatar className='h-9 w-9 border bg-gray-300 border-muted-foreground/10'>
+          <AvatarFallback className={'uppercase text-sm bg-gray-100'}>{user.username.slice(0, 2)}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-44 bg-background/50 backdrop-blur' align='end' forceMount>
+      <DropdownMenuContent className='w-44 bg-gray-400/50 backdrop-blur' align='end' forceMount>
         <DropdownMenuLabel className='font-normal'>
           <p className='text-sm font-medium leading-none flex justify-between items-center'>
             {user.username} <PersonIcon />

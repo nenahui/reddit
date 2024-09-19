@@ -1,9 +1,15 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatDate } from '@/lib/formatDate';
+import type { Post } from '@/types';
 import { EnvelopeClosedIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
-export const ForumCard: React.FC = () => {
+interface Props {
+  post: Post;
+}
+
+export const ForumCard: React.FC<Props> = ({ post }) => {
   return (
     <Card
       className={
@@ -15,23 +21,25 @@ export const ForumCard: React.FC = () => {
           <CardTitle>
             <div className={'flex items-center gap-2'}>
               <Avatar className={'size-8'}>
-                <AvatarFallback className={'text-sm font-normal duration-100'}>KA</AvatarFallback>
+                <AvatarFallback className={'text-sm font-normal duration-100'}>
+                  {post.author.username.slice(0, 2)}
+                </AvatarFallback>
               </Avatar>
               <h4 className={'text-sm flex gap-2 items-center'}>
                 kanat <small>·</small>
-                <span className={'font-normal'}>6mo ago</span>
+                <span className={'font-normal'}>{formatDate(post.createdAt)}</span>
               </h4>
             </div>
           </CardTitle>
         </CardHeader>
 
         <CardContent className={'p-3 pb-0'}>
-          <h3 className={'text-lg leading-none font-medium'}>How to use React Router?</h3>
+          <h3 className={'text-lg leading-none font-medium'}>{post.title}</h3>
         </CardContent>
 
         <CardFooter className={'p-3 pb-4'}>
           <small className={'flex items-center gap-1'}>
-            <EnvelopeClosedIcon /> · 336 comments
+            <EnvelopeClosedIcon /> · {post.comments.length} comments
           </small>
         </CardFooter>
       </div>

@@ -29,3 +29,24 @@ export interface ValidationError {
 export interface GlobalError {
   error: string;
 }
+
+export interface Author {
+  _id: string;
+  username: string;
+}
+
+export interface Comment {
+  _id: string;
+  author: Author;
+  content: string;
+  createdAt: string;
+}
+
+export interface Post {
+  _id: string;
+  title: string;
+  content: string;
+  author: Author;
+  createdAt: string;
+  comments: Comment[];
+}
