@@ -26,6 +26,7 @@ const run = async () => {
 
   const post1 = new Post({
     title: 'First Post',
+    image: 'fixtures/tailwindcss.png',
     content: 'This is the first post content.',
     author: firstUser._id,
     comments: [],
@@ -33,7 +34,7 @@ const run = async () => {
 
   const post2 = new Post({
     title: 'Second Post',
-    content: 'This is the second post content.',
+    image: 'fixtures/shadcn.avif',
     author: secondUser._id,
     comments: [],
   });
