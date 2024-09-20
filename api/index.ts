@@ -9,6 +9,7 @@ const app = express();
 
 app.use(cors(config.corsOptions));
 app.use(express.json());
+app.use(express.static(config.publicPath));
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 

@@ -25,5 +25,5 @@ export const Forum: React.FC = () => {
       posts.map((post) => <ForumCard key={post._id} post={post} />)
     );
 
-  return <div className={'flex flex-col'}>{postsElements}</div>;
+  return <div className={'flex flex-col gap-2'}>{postsElements}</div>;
 };

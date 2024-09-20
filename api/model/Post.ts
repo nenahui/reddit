@@ -26,6 +26,7 @@ const PostSchema = new Schema({
       message: 'User does not exist',
     },
   },
+  image: String,
   createdAt: {
     type: Date,
     default: Date.now,

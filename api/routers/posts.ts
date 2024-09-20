@@ -3,6 +3,7 @@ import { auth } from '../middleware/auth';
 import { Post } from '../model/Post';
 import { User } from '../model/User';
 import { Comment } from '../model/Comment';
+import { imagesUpload } from '../multer';
 
 export const postsRouter = express.Router();
 
@@ -24,7 +25,7 @@ postsRouter.get('/', async (req, res, next) => {
   }
 });
 
-postsRouter.post('/', auth, async (req, res, next) => {
+postsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
   try {
     const { body } = req;
     const headerValue = req.get('Authorization');
@@ -51,6 +52,7 @@ postsRouter.post('/', auth, async (req, res, next) => {
       title: body.title,
       content: body.content,
       author: user._id,
+      image: req.file?.filename || null,
     });
 
     await post.save();

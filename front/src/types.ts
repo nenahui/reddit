@@ -48,5 +48,12 @@ export interface Post {
   content: string;
   author: Author;
   createdAt: string;
+  image: string | null;
   comments: Comment[];
+}
+
+export interface ForumMutation {
+  title: string;
+  content: string;
+  image: File | null;
 }

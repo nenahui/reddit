@@ -13,14 +13,14 @@ export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <header className='sticky mb-4 top-2 rounded-full z-50 w-full max-w-md mx-auto border-border/40 backdrop-blur supports-[backdrop-filter]:bg-gray-400/60'>
+    <header className='sticky mb-6 top-2 rounded-full z-50 w-full max-w-md mx-auto border-border/40 backdrop-blur supports-[backdrop-filter]:bg-gray-200/60'>
       <div className='container px-0 flex h-14 max-w-screen-2xl justify-between w-full items-center'>
         <Link to='/' className='flex items-center'>
           <img src={'/logo.png'} className='h-5 w-6 mr-2' alt={'Taza Meken'} />
           <span className='hidden font-medium lg:inline-block'>Keddit</span>
         </Link>
 
-        <MainNav />
+        <MainNav user={user} />
 
         <nav className='flex items-center gap-2'>
           {user ? (

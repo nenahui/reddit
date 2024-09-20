@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { API_URL } from '@/consts';
 import { formatDate } from '@/lib/formatDate';
 import type { Post } from '@/types';
 import { EnvelopeClosedIcon } from '@radix-ui/react-icons';
@@ -11,11 +12,7 @@ interface Props {
 
 export const ForumCard: React.FC<Props> = ({ post }) => {
   return (
-    <Card
-      className={
-        'shadow-none hover:bg-gray-50 duration-100 border-0 border-b px-3 rounded-none flex items-center justify-between'
-      }
-    >
+    <Card className={'shadow-none hover:bg-gray-50 duration-100 px-3 cursor-pointer flex items-center justify-between'}>
       <div className={''}>
         <CardHeader className={'p-3 pb-0 pt-4'}>
           <CardTitle>
@@ -44,11 +41,7 @@ export const ForumCard: React.FC<Props> = ({ post }) => {
         </CardFooter>
       </div>
 
-      <img
-        src={'https://i.pinimg.com/564x/cb/a0/b8/cba0b89d2bf2d96a1ed26edb5849f804.jpg'}
-        alt={'React Router'}
-        className={'rounded-lg h-20'}
-      />
+      {post.image && <img src={`${API_URL}/${post.image}`} alt={post.title} className={'rounded-lg h-20'} />}
     </Card>
   );
 };
