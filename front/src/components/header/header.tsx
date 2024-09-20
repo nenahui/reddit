@@ -13,7 +13,9 @@ export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <header className='sticky mb-6 top-2 rounded-full z-50 w-full max-w-md mx-auto border-border/40 backdrop-blur supports-[backdrop-filter]:bg-gray-200/60'>
+    <header
+      className={`sticky mb-6 top-2 rounded-full z-50 ${user?.token ? 'w-full' : 'w-56'} max-w-md mx-auto border-border/40 backdrop-blur supports-[backdrop-filter]:bg-gray-200/60`}
+    >
       <div className='container px-0 flex h-14 max-w-screen-2xl justify-between w-full items-center'>
         <Link to='/' className='flex items-center'>
           <img src={'/logo.png'} className='h-5 w-6 mr-2' alt={'Taza Meken'} />
@@ -29,7 +31,7 @@ export const Header: React.FC = () => {
             </>
           ) : (
             <Link to={'/login'}>
-              <Button size={'sm'} className={'flex gap-1'}>
+              <Button size={'sm'} className={`flex gap-1 ${!user && 'rounded-full'}`}>
                 Войти
                 <User className={'size-4'} />
               </Button>

@@ -1,15 +1,32 @@
 import express from 'express';
-import { auth } from '../middleware/auth';
-import { Post } from '../model/Post';
-import { User } from '../model/User';
+import { auth, type RequestWithUser } from '../middleware/auth';
 import { Comment } from '../model/Comment';
+import { Post } from '../model/Post';
 import { imagesUpload } from '../multer';
 
 export const postsRouter = express.Router();
 
 postsRouter.get('/', async (req, res, next) => {
   try {
-    const posts = await Post.find()
+    const posts = await Post.find().populate('author', 'username');
+
+    const postsWithCommentCount = posts.map((post) => ({
+      ...post.toObject(),
+      commentCount: post.comments.length,
+      comments: undefined,
+    }));
+
+    return res.send(postsWithCommentCount);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+postsRouter.get('/:postId', async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+
+    const post = await Post.findById(postId)
       .populate('author', 'username')
       .populate({
         path: 'comments',
@@ -19,40 +36,36 @@ postsRouter.get('/', async (req, res, next) => {
         },
       });
 
-    return res.send(posts);
+    if (!post) {
+      return res.status(404).send({ error: 'Forum not found' });
+    }
+
+    return res.send(post);
   } catch (error) {
     return next(error);
   }
 });
 
-postsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
+postsRouter.post('/', auth, imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
   try {
-    const { body } = req;
-    const headerValue = req.get('Authorization');
+    const { body, user } = req;
 
-    switch (true) {
-      case !body.title:
-        return res.status(400).send({ error: 'Title is required' });
-      case !body.content:
-        return res.status(400).send({ error: 'Content is required' });
-      default:
+    if (!user) {
+      return res.status(403).send({ error: 'User not found' });
     }
 
-    if (!headerValue) return res.status(204).send();
+    const image = req.file?.filename || null;
+    const { content } = body;
 
-    const [_bearer, token] = headerValue.split(' ');
-
-    if (!token) return res.status(204).send();
-
-    const user = await User.findOne({ token });
-
-    if (!user) return res.status(204).send();
+    if (!content && !image) {
+      return res.status(400).send({ error: 'Either image or description must be present!' });
+    }
 
     const post = new Post({
       title: body.title,
-      content: body.content,
+      content: content || null,
       author: user._id,
-      image: req.file?.filename || null,
+      image: image,
     });
 
     await post.save();
@@ -63,25 +76,19 @@ postsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next)
   }
 });
 
-postsRouter.post('/:postId/comments', auth, async (req, res, next) => {
+postsRouter.post('/:postId/comments', auth, async (req: RequestWithUser, res, next) => {
   try {
+    const { user } = req;
     const { postId } = req.params;
     const { content } = req.body;
-    const headerValue = req.get('Authorization');
+
+    if (!user) {
+      return res.status(403).send({ error: 'User not found' });
+    }
 
     if (!content) {
       return res.status(400).send({ error: 'Content is required' });
     }
-
-    if (!headerValue) return res.status(204).send();
-
-    const [_bearer, token] = headerValue.split(' ');
-
-    if (!token) return res.status(204).send();
-
-    const user = await User.findOne({ token });
-
-    if (!user) return res.status(204).send();
 
     const post = await Post.findById(postId);
 
@@ -96,7 +103,6 @@ postsRouter.post('/:postId/comments', auth, async (req, res, next) => {
     });
 
     await comment.save();
-
     post.comments.push(comment);
     await post.save();
 

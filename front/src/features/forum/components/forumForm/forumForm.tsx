@@ -43,7 +43,6 @@ export const ForumForm: React.FC<Props> = ({ onSubmit, onChange, values, onImage
             name='content'
             onChange={onChange}
             value={values.content}
-            required
           />
         </div>
 

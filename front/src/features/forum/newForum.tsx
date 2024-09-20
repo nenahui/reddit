@@ -1,9 +1,11 @@
-import { useAppDispatch } from '@/app/hooks';
-import { ForumForm } from '@/features/forum/components/forumForm';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { ForumForm } from '@/features/forum/components/forumForm/forumForm';
+import { selectPostCreateError } from '@/features/forum/forumSlice';
 import { createForum } from '@/features/forum/forumThunks';
 import type { ForumMutation } from '@/types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const initialState: ForumMutation = {
   title: '',
@@ -14,7 +16,14 @@ const initialState: ForumMutation = {
 export const NewForum: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const error = useAppSelector(selectPostCreateError);
   const [forumMutation, setForumMutation] = React.useState<ForumMutation>(initialState);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.error);
+    }
+  }, [error]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { value, name } = e.target;

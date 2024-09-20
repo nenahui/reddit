@@ -1,3 +1,4 @@
+import { NotImage } from '@/assets/icons/notImage';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { API_URL } from '@/consts';
@@ -5,6 +6,7 @@ import { formatDate } from '@/lib/formatDate';
 import type { Post } from '@/types';
 import { EnvelopeClosedIcon } from '@radix-ui/react-icons';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface Props {
   post: Post;
@@ -12,36 +14,44 @@ interface Props {
 
 export const ForumCard: React.FC<Props> = ({ post }) => {
   return (
-    <Card className={'shadow-none hover:bg-gray-50 duration-100 px-3 cursor-pointer flex items-center justify-between'}>
-      <div className={''}>
-        <CardHeader className={'p-3 pb-0 pt-4'}>
-          <CardTitle>
-            <div className={'flex items-center gap-2'}>
-              <Avatar className={'size-8'}>
-                <AvatarFallback className={'text-sm font-normal duration-100'}>
-                  {post.author.username.slice(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-              <h4 className={'text-sm flex gap-2 items-center'}>
-                kanat <small>·</small>
-                <span className={'font-normal'}>{formatDate(post.createdAt)}</span>
-              </h4>
-            </div>
-          </CardTitle>
-        </CardHeader>
+    <Link to={`/forum/${post._id}`}>
+      <Card
+        className={'shadow-none hover:bg-gray-50 duration-100 px-3 cursor-pointer flex items-center justify-between'}
+      >
+        <div className={''}>
+          <CardHeader className={'p-3 pb-0 pt-4'}>
+            <CardTitle>
+              <div className={'flex items-center gap-2'}>
+                <Avatar className={'size-8'}>
+                  <AvatarFallback className={'text-sm font-normal duration-100'}>
+                    {post.author.username.slice(0, 2)}
+                  </AvatarFallback>
+                </Avatar>
+                <h4 className={'text-sm flex gap-2 items-center'}>
+                  {post.author.username} <p className={'text-lg'}>·</p>
+                  <span className={'font-normal'}>{formatDate(post.createdAt)}</span>
+                </h4>
+              </div>
+            </CardTitle>
+          </CardHeader>
 
-        <CardContent className={'p-3 pb-0'}>
-          <h3 className={'text-lg leading-none font-medium'}>{post.title}</h3>
-        </CardContent>
+          <CardContent className={'p-3 pb-0'}>
+            <h3 className={'text-lg leading-none font-medium'}>{post.title}</h3>
+          </CardContent>
 
-        <CardFooter className={'p-3 pb-4'}>
-          <small className={'flex items-center gap-1'}>
-            <EnvelopeClosedIcon /> · {post.comments.length} comments
-          </small>
-        </CardFooter>
-      </div>
+          <CardFooter className={'p-3 pb-4'}>
+            <small className={'flex items-center gap-1'}>
+              <EnvelopeClosedIcon /> · {post.commentCount} comments
+            </small>
+          </CardFooter>
+        </div>
 
-      {post.image && <img src={`${API_URL}/${post.image}`} alt={post.title} className={'rounded-lg h-20'} />}
-    </Card>
+        {post.image ? (
+          <img src={`${API_URL}/${post.image}`} alt={post.title} className={'rounded-lg h-20'} />
+        ) : (
+          <NotImage className={'h-20 w-20 text-muted-foreground'} />
+        )}
+      </Card>
+    </Link>
   );
 };

@@ -13,25 +13,28 @@ export const MainNav: React.FC<Props> = ({ user }) => {
   return (
     <nav className='flex items-center gap-4 text-sm justify-between'>
       {user && (
-        <Link
-          to='/'
-          className={cn(
-            'transition-colors hover:text-foreground/80',
-            pathname === '/' ? 'text-foreground' : 'text-foreground/60'
-          )}
-        >
-          Forum
-        </Link>
+        <>
+          <Link
+            to='/'
+            className={cn(
+              'transition-colors hover:text-foreground/80',
+              pathname === '/' ? 'text-foreground' : 'text-foreground/60'
+            )}
+          >
+            Home
+          </Link>
+
+          <Link
+            to='/new-forum'
+            className={cn(
+              'transition-colors hover:text-foreground/80',
+              pathname === '/new-forum' ? 'text-foreground' : 'text-foreground/60'
+            )}
+          >
+            Add new forum
+          </Link>
+        </>
       )}
-      <Link
-        to='/new-forum'
-        className={cn(
-          'transition-colors hover:text-foreground/80',
-          pathname === '/new-forum' ? 'text-foreground' : 'text-foreground/60'
-        )}
-      >
-        Add new forum
-      </Link>
     </nav>
   );
 };

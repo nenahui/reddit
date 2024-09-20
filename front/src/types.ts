@@ -49,8 +49,15 @@ export interface Post {
   author: Author;
   createdAt: string;
   image: string | null;
-  comments: Comment[];
+  comments: Comment[] | undefined;
+  commentCount: number;
 }
+
+export interface CommentMutation {
+  content: string;
+}
+
+export type OnePost = Omit<Post, 'commentCount'>;
 
 export interface ForumMutation {
   title: string;
